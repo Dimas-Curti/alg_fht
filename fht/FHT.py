@@ -8,9 +8,10 @@ if len(sys.argv) < 2:
     exit()
     
 '''
-
+# path of the directory of files for generating header matrix
 path = 'C:/Users/junior/Documents/teste'
-
+# path="/Users/charanshampur/newAwsDump/dumpedContents/application/rdf+xml"
+# path = "/Users/charanshampur/newAwsDump/dumpedContents/additional_test_files/gif/base_files "
 
 # CSV file of file signature
 fhtFile4 = open("head4application_rdfXml.csv", "w")
