@@ -1,10 +1,10 @@
 import sys
 from os import mkdir
 from os.path import join, isdir
-from alg_fht.fht1.rw.ht_reader import *
-from alg_fht.fht1.fht.fht import *
-from alg_fht.fht1.fht.compare import *
-from alg_fht.fht1.fht.average import *
+from rw.ht_reader import *
+from fht.fht import *
+from fht.compare import *
+from fht.average import *
 import numpy as np
 import sys
 np.set_printoptions(threshold=sys.maxsize)
