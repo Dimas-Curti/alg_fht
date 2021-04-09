@@ -51,7 +51,7 @@ def runFHT():
     print(" ------ FHT Matrix Computed ------ ")
     print(" The FHT matrix has been saved in {0} ".format(OP_PATH))
     print(" RUN: cp ./output/fht/{0} WEBAPP_PATH/data/computed/fht/".format(fileName))
-    print(" You can view the visualization at {0}#/visualize/fht/{1}/{2}".format(VISUALIZATION_APP, OFFSET, fileName))
+    print(" You can web the visualization at {0}#/visualize/fht/{1}/{2}".format(VISUALIZATION_APP, OFFSET, fileName))
     print(" ------ VISUALIZATION READY ------ ")
 '''
 
@@ -104,7 +104,7 @@ def runFHTC():
     print(" The FHT matrix has been saved in {0} ".format(OP_PATH))
     print(" THE Assurance Level for the 2 files is : {0}".format(cm.assuranceLevel()))
     print(" RUN: cp ./output/fht/{0} WEBAPP_PATH/data/computed/fht/".format(fileName))
-    print(" You can view the visualization at {0}#/visualize/fht/{1}/{2}".format(VISUALIZATION_APP, OFFSET, fileName))
+    print(" You can web the visualization at {0}#/visualize/fht/{1}/{2}".format(VISUALIZATION_APP, OFFSET, fileName))
     print(" ------ VISUALIZATION READY ------ ")
 
 
