@@ -16,11 +16,15 @@
         <div class=" flex flex-col w-2/3 mx-auto">
             <div class="offset-input mb-4">
                 <p class="text-lg mb-2">Digite o deslocamento do header e do trailer</p>
-                <input class="border border-gray-500 px-4 placeholder-gray-700" type="number" placeholder="Deslocamento" />
+                <input class="offset-selector border border-gray-500 px-4 placeholder-gray-700" type="number" placeholder="Deslocamento" />
             </div>
             <div class="file-input mb-4">
                 <p class="text-lg mb-2">Selecione o arquivo para verificação</p>
-                <input type="file" />
+                <button
+                   class="bg-gray-600 p-2 text-white font-semibold tracking-wider text-h4"
+                   onclick="select_file()"
+                >
+                    SELECIONAR ARQUIVO</button>
             </div>
             <div class="mx-auto">
                 <button
