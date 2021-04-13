@@ -1,9 +1,9 @@
 from os import mkdir
 from os.path import join, isdir
 from fht.reader.ht_reader import *
-from fht.fht.fht import *
-from fht.fht.compare import *
-from fht.fht.average import *
+from fht.helpers.fht import *
+from fht.helpers.compare import *
+from fht.helpers.average import *
 import numpy as np
 import sys
 
@@ -68,15 +68,15 @@ def run_fht_correlate(input_file, offset):
     print(" ------ FHT Correlation Computed ------ ")
     print(" The FHT matrix has been saved in {0} ".format(OP_PATH))
     print(" THE Assurance Level for the 2 files is : {0}".format(cm.assuranceLevel()))
-    print(" RUN: cp ./output/fht/{0} WEBAPP_PATH/data/computed/fht/".format(fileName))
-    print(" You can web the visualization at {0}#/visualize/fht/{1}/{2}".format(VISUALIZATION_APP, offset, fileName))
+    print(" RUN: cp ./output/helpers/{0} WEBAPP_PATH/data/computed/helpers/".format(fileName))
+    print(" You can web the visualization at {0}#/visualize/helpers/{1}/{2}".format(VISUALIZATION_APP, offset, fileName))
     print(" ------ VISUALIZATION READY ------ ")
 
 
 # CREATE OUTPUT PATH
 safeMkdir("output")
 
-if TYPE == "fht":
+if TYPE == "helpers":
     runFHT()
 elif TYPE == "fhtc":
     runFHTC()
