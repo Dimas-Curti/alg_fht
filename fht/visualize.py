@@ -1,17 +1,17 @@
-from os import mkdir
-from os.path import join, isdir
 from fht.reader.ht_reader import *
 from fht.helpers.fht import *
 from fht.helpers.compare import *
 from fht.helpers.average import *
 import numpy as np
 import sys
+from interfaces.db_interface import *
 
 np.set_printoptions(threshold=sys.maxsize)
 
 
 # Método criado para teste rápido, aqui será criado previamente a assinatura padrão para teste
 def run_fht(input_file, offset):
+    db = DataBaseConnection()
     r = HTFileReader(input_file, offset)
     fht_res = FHTAnalyzer(offset)
     r.read(fht_res.compute)
@@ -22,7 +22,7 @@ def run_fht(input_file, offset):
 # Neste método será feito a correlação
 def run_fht_correlate(input_file, offset):
     signature_file = '/home/guilherme/Área de Trabalho/Workspace Guilherme/TCC - Análise e assinatura de ' \
-                     'arquivos/code/alg_fht/test-files/teste.gif '
+                     'arquivos/Banco de dados de extensões/gif/1.gif'
 
     # TODO: implementar logs
     # OP_PATH = 'C:/Users/junior/Documents/test/computado/out.txt'
