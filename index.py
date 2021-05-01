@@ -1,5 +1,5 @@
 import eel
-from fht import visualize
+from fht.main import *
 from interfaces.gui_interface import *
 
 eel.init('web')
@@ -7,7 +7,8 @@ eel.init('web')
 
 @eel.expose
 def analyse_file(file, offset):
-    return visualize.run_fht_correlate(file, offset)
+    app = Main(file, offset)
+    return app.run_fht_correlate()
 
 
 @eel.expose
