@@ -14,8 +14,6 @@ class Signature:
         self.signature = None
         self.last_compare = {}
 
-        self.db = DataBaseConnection()
-
     def generate_signature(self):
         reader = HTFileReader(self.file, self.offset)
         self.signature = FHTAnalyzer(self.offset)

@@ -1,5 +1,6 @@
 from fht.core.signature import *
 from interfaces.db_interface import *
+from interfaces.csv_interface import *
 import os
 
 
@@ -12,6 +13,7 @@ class Main:
         self.input_file_extension = os.path.splitext(self.input_file)[1].replace('.', '')
 
         self.db = DataBaseConnection()
+        self.csv = CsvInterface()
 
     def run_fht_correlate(self):
         sign1 = Signature(self.input_file, self.offset, self.input_file_extension).generate_signature()                 # Gera a assinatura do arquivo de entrada
@@ -19,16 +21,16 @@ class Main:
 
         sign1.compare_to(sign2.get_signature())                                                                         # compara as duas assinaturas para gerar o objeto final da correlação
 
-        self.register_final_signature(sign1)
         self.register_signature_logs(sign1)
+        self.register_final_signature(sign1)
 
         return sign1.last_compare
 
     def register_final_signature(self, sign):
-        self.db.register_final_signature(sign.file_extension, sign.last_compare['final_signature'])
+        self.db.register_final_signature(sign.file_extension)
 
     def register_signature_logs(self, sign):
-        self.db.register_signature_log(sign.file_extension, sign.last_compare['assurance'], sign.last_compare['correlation_matrix'], sign.last_compare['final_signature'])
+        csv_file_name = self.db.register_signature_log(sign.file_extension, sign.last_compare['assurance'], sign.last_compare['correlation_matrix'])
+        self.csv.write(csv_file_name)
 
 # TODO: pegar assinatura do banco
-# TODO: implementar logs
