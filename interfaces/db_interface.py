@@ -1,7 +1,7 @@
 import sqlite3 as sql
 
 
-class DataBaseConnection:
+class DataBaseInterface:
     def __init__(self):
         self.conn = sql.connect('db/signatures_analysis.db')
         self.cursor = self.conn.cursor()
@@ -80,7 +80,6 @@ class DataBaseConnection:
         """)
 
         next_row = self.cursor.fetchone()
-        print(next_row)
         if next_row[0] is None:
             return 1
         else:

@@ -12,7 +12,7 @@ class Main:
                                       'arquivos/Banco de dados de extensões/gif/1.gif'
         self.input_file_extension = os.path.splitext(self.input_file)[1].replace('.', '')
 
-        self.db = DataBaseConnection()
+        self.db = DataBaseInterface()
         self.csv = CsvInterface()
 
     def run_fht_correlate(self):
@@ -31,6 +31,6 @@ class Main:
 
     def register_signature_logs(self, sign):
         csv_file_name = self.db.register_signature_log(sign.file_extension, sign.last_compare['assurance'], sign.last_compare['correlation_matrix'])
-        self.csv.write(csv_file_name)
+        self.csv.write(csv_file_name, sign.last_compare['final_signature'])
 
 # TODO: pegar assinatura do banco

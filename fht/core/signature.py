@@ -31,6 +31,9 @@ class Signature:
         compare = CompareFHT(self.get_signature(), signature_to_compare)
         average = FHTAverage(self.get_signature(), 1)
 
-        self.last_compare['correlation_matrix'] = str(compare.correlate())
+        self.last_compare['correlation_matrix'] = str({
+            'header_correlation': compare.correlate()[0],
+            'trailer_correlation': compare.correlate()[1]
+        })
         self.last_compare['assurance'] = compare.assuranceLevel() * 100
-        self.last_compare['final_signature'] = str(average.accumulate(signature_to_compare))
+        self.last_compare['final_signature'] = average.accumulate(signature_to_compare).fingerprint()
