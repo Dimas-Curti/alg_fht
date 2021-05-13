@@ -14,8 +14,8 @@ def analyse_file(file, offset):
 @eel.expose
 def select_file():
     gui = GuiInterface()
-    gui.initialize_file_dialog('Selecionar arquivo para verificar')
-    return gui.selected_path_name
+    file_path = gui.initialize_file_dialog('Selecionar arquivo para verificar')
+    return file_path
 
 
 eel.start('main.html', size=(900, 600))

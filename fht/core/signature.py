@@ -2,7 +2,6 @@ from fht.reader.ht_reader import *
 from fht.helpers.fht import *
 from fht.helpers.compare import *
 from fht.helpers.average import *
-from interfaces.db_interface import *
 
 
 class Signature:
@@ -22,18 +21,25 @@ class Signature:
         return self
 
     def get_signature(self):
-        res = self.signature.signature()
-        return res
+        return {
+            "header_signature": self.signature.signature()[0],
+            "trailer_signature": self.signature.signature()[1]
+        }
 
     # correlaciona a assinatura do objeto com a assinatura passada como parâmetro para gerar a matriz de correlação e % de precisão da correlação
     # Após isso é acumulada as duas assinaturas e gerada a assinatura média da correlação usada para comparar com os arquivos de entrada.
     def compare_to(self, signature_to_compare):
-        compare = CompareFHT(self.get_signature(), signature_to_compare)
-        average = FHTAverage(self.get_signature(), 1)
+        signature_to_backend = (self.get_signature()["header_signature"], self.get_signature()["trailer_signature"])
+
+        compare = CompareFHT(signature_to_backend, signature_to_compare)
+        average = FHTAverage(signature_to_backend, 1)
 
         self.last_compare['correlation_matrix'] = str({
             'header_correlation': compare.correlate()[0],
             'trailer_correlation': compare.correlate()[1]
         })
         self.last_compare['assurance'] = compare.assuranceLevel() * 100
-        self.last_compare['final_signature'] = average.accumulate(signature_to_compare).fingerprint()
+        self.last_compare['final_signature'] = {
+            "header_signature": average.accumulate(signature_to_compare).fingerprint()[0],
+            "trailer_signature": average.accumulate(signature_to_compare).fingerprint()[1]
+        }
