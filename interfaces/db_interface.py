@@ -15,10 +15,12 @@ class DataBaseInterface:
         CREATE TABLE IF NOT EXISTS signature_logs (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             generated_at DATETIME NOT NULL,
-            extension TEXT NOT NULL,
+            extension TEXT,
             assurance DECIMAL(5,2) NOT NULL,
             correlation_matrix TEXT NOT NULL,
-            signature_json TEXT NOT NULL
+            signature_json TEXT NOT NULL,
+            compared_extension TEXT,
+            second_level_comparisons TEXT
         );
         """)
 
@@ -33,23 +35,41 @@ class DataBaseInterface:
         );
         """)
 
-    def register_signature_log(self, sign):
+    def register_signature_log(self, sign, second_level_comparisons):
         base_signature_id = self.get_next_signature_log_id()
         signature_json = "{}_{}.json".format(base_signature_id, sign.file_extension)
 
+        if second_level_comparisons == {}:
+            final_second_level_comparisons = ''
+        else:
+            final_second_level_comparisons = str(second_level_comparisons)
+
         if sign.last_compare:
-            data = [[sign.file_extension, sign.last_compare['assurance'], sign.last_compare['correlation_matrix'], signature_json]]
+            data = [[
+                sign.file_extension,
+                sign.last_compare['assurance'],
+                str(sign.last_compare['correlation_matrix']),
+                signature_json,
+                sign.last_compare['compared_extension'],
+                final_second_level_comparisons
+            ]]
 
             self.cursor.executemany("""
-                INSERT INTO signature_logs (generated_at, extension, assurance, correlation_matrix, signature_json)
-                VALUES (CURRENT_TIMESTAMP, ?, ?, ?, ?)
+                INSERT INTO signature_logs (generated_at, extension, assurance, correlation_matrix, signature_json, compared_extension, second_level_comparisons)
+                VALUES (CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?)
             """, data)
         else:
-            data = [[sign.file_extension, '', '', signature_json]]
+            data = [[
+                sign.file_extension,
+                '',
+                '',
+                signature_json,
+                '',
+                final_second_level_comparisons]]
 
             self.cursor.executemany("""
-                INSERT INTO signature_logs (generated_at, extension, assurance, correlation_matrix, signature_json)
-                VALUES (CURRENT_TIMESTAMP, ?, ?, ?, ?)
+                INSERT INTO signature_logs (generated_at, extension, assurance, correlation_matrix, signature_json, compared_extension, second_level_comparisons)
+                VALUES (CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?)
             """, data)
 
         self.conn.commit()
@@ -120,6 +140,18 @@ class DataBaseInterface:
         """, [extension])
 
         tmp = self.cursor.fetchone()
+
         if tmp is not None:
             file_name = tmp[0]
             return file_name
+
+    def get_others_old_base_signatures(self, extension):
+        self.cursor.execute("""
+        SELECT logs.signature_json FROM
+        base_signatures as base_signs
+        INNER JOIN signature_logs as logs
+            ON base_signs.signature_log_id = logs.id
+        WHERE base_signs.extension != ?
+        """, [extension])
+
+        return self.cursor.fetchall()

@@ -16,7 +16,6 @@ class JsonInterface:
 
     def read(self, file_name):
         with open(self.json_folder + file_name, mode='r+') as file:
-            print(file_name)
             current_json = json.load(file)
 
             content = {

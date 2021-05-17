@@ -7,8 +7,7 @@ async function verify () {
     console.log('File path escolhido: ', filePath)
     console.log('Offset escolhido: ', offset)
 
-    var response = await eel.analyse_file(filePath, offset)()
-    console.log(response)
+    res = eel.analyse_file(filePath, offset)()
 }
 
 async function select_file () {
