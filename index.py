@@ -6,9 +6,12 @@ eel.init('web')
 
 
 @eel.expose
-def analyse_file(file, offset):
-    app = Main(file, offset)
-    return app.run_fht_correlate()
+def analyse_file(file, offset, reset_database):
+    app = Main(file, offset, reset_database)
+
+    res = app.run_fht_correlate()
+    print(res)
+    return res
 
 
 @eel.expose
@@ -18,4 +21,12 @@ def select_file():
     return file_path
 
 
-eel.start('main.html', size=(900, 600))
+def close_callback(route, websockets):
+    if os.path.exists('web/tmp'):
+        shutil.rmtree("web/tmp")
+
+    if not websockets:
+        exit()
+
+
+eel.start('main.html', size=(1200, 600), close_callback=close_callback)

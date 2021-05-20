@@ -3,31 +3,25 @@ from interfaces.db_interface import *
 from interfaces.json_interface import *
 from interfaces.gui_interface import *
 import os
-import re
 
 
 class Main:
-    def __init__(self, input_file, offset):
+    def __init__(self, input_file, offset, reset_database):
         self.input_file = input_file
         self.offset = offset
+        self.reset_database = reset_database
         self.input_file_extension = self.get_extension(self.input_file)
         self.input_signature = None
         self.second_level_comparisons = {}
+        self.final_graphic = None
 
         self.db = DataBaseInterface()
         self.json = JsonInterface()
         self.gui = GuiInterface()
 
-    @staticmethod
-    def get_extension(file):
-        return os.path.splitext(file)[1].replace('.', '')
-
-    @staticmethod
-    def get_extension_by_log_file(file):
-        return file[file.index('_') + 1:file.index('.')]
-
     def run_fht_correlate(self):
-        if self.db.is_first_run():
+        if self.db.is_first_run() or self.reset_database:
+            self.db.reset_database()
             self.generate_base_signatures_from_folder()
 
         self.input_signature = Signature(self.input_file, self.offset, self.input_file_extension).generate_signature()  # Gera a assinatura do arquivo de entrada
@@ -37,10 +31,47 @@ class Main:
             old_signature = self.json.read(old_signature_file)
             self.input_signature.compare_to(old_signature["to_backend"], self.input_file_extension)                     # compara as duas assinaturas para gerar o objeto final da correlação
 
-            self.compare_to_other_old_signatures()
+            if self.input_signature.last_compare["assurance"] < 100:
+                self.compare_to_other_old_signatures()
 
-            self.register_signature_logs(self.input_signature)
-            self.register_final_signature(self.input_signature)
+                self.register_signature_logs(self.input_signature)
+                self.register_final_signature(self.input_signature)
+
+                self.gui.generate_second_level_comparison_graphic(self.second_level_comparisons)
+
+                return {
+                    'code': 'suspect_file',
+                    'fake_extension': self.input_file_extension,
+                    'correct_extensions': self.get_correct_extensions()
+                }
+
+            else:
+                self.compare_to_other_old_signatures()
+
+                self.register_signature_logs(self.input_signature)
+                self.register_final_signature(self.input_signature)
+
+                self.gui.generate_second_level_comparison_graphic(self.second_level_comparisons)
+
+                return {
+                    'code': 'success',
+                    'correct_extension': self.input_file_extension
+                }
+
+    @staticmethod
+    def get_extension(file):
+        return os.path.splitext(file)[1].replace('.', '')
+
+    @staticmethod
+    def get_extension_by_log_file(file):
+        return file[file.index('_') + 1:file.index('.')]\
+
+
+    def get_correct_extensions(self):
+        filtered_data = list(filter(lambda item: item[1] == 100, self.second_level_comparisons.items()))
+        correct_extensions = [item[0] for item in filtered_data]
+
+        return correct_extensions
 
     def register_final_signature(self, sign):
         self.db.register_final_signature(sign.file_extension)

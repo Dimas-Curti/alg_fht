@@ -1,4 +1,6 @@
 import sqlite3 as sql
+import os
+import shutil
 
 
 class DataBaseInterface:
@@ -155,3 +157,23 @@ class DataBaseInterface:
         """, [extension])
 
         return self.cursor.fetchall()
+
+    def reset_database(self):
+        self.cursor.executescript("""
+            DROP TABLE IF EXISTS signature_logs;
+            DROP TABLE IF EXISTS base_signatures;
+        """)
+
+        if os.path.exists('db/json'):
+            shutil.rmtree("db/json")
+
+        if not os.path.exists("db/json"):
+            os.mkdir("db/json")
+
+        if os.path.exists('web/tmp'):
+            shutil.rmtree("web/tmp")
+
+        if not os.path.exists("web/tmp"):
+            os.mkdir("web/tmp")
+
+        self.setup_base_tables()
