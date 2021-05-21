@@ -51,7 +51,6 @@ class Main:
                     'fake_extension': self.input_file_extension,
                     'correct_extensions': self.get_correct_extensions()
                 }
-
             else:
                 self.register_signature_logs(self.input_signature)
                 self.register_final_signature(self.input_signature)

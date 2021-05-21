@@ -10,7 +10,7 @@ async function verify () {
     res = await eel.analyse_file(filePath, OFFSET, reset_database)()
 
     setTimeout(() => {
-        $('.spinner-container').slideUp(500)
+        $('.spinner-container').hide()
 
         switch (res.code) {
             case 'success':
@@ -21,12 +21,20 @@ async function verify () {
 
             case 'suspect_file':
                 switch (res.correct_extensions.length) {
+                    case 0:
+                        change_final_text('Este é um arquivo suspeito, porém não conseguimos identificar qual sua extensão.')
+
+                        break;
                     case 1:
                         change_final_text('Este é um arquivo modificado, sua extensão original é ' + res.correct_extensions[0])
 
                         break;
                     case 2:
                         change_final_text('Este é um arquivo modificado, ele tem uma alta probabilidade de ser ' + res.correct_extensions[0] + ' ou ' + res.correct_extensions[1])
+
+                        break;
+                    case 3:
+                        change_final_text('Este é um arquivo modificado, ele tem uma alta probabilidade de ser ' + res.correct_extensions[0] + ', ' + res.correct_extensions[1] + ' ou ' + res.correct_extensions[2])
 
                         break;
                 }
@@ -46,12 +54,11 @@ async function select_file () {
 }
 
 function initiate_verify() {
-    $('img').fadeOut(1000)
+    $('img').hide()
 
     $('.main-wrapper, img').removeClass('img-open')
     $('.initial-text, .final-text').hide()
     $('.spinner-container').fadeIn(500)
-    $('.spinner-container').slideDown(500)
     $('.spinner-container').css('display', 'flex')
 }
 
@@ -59,14 +66,13 @@ function show_graphics () {
     $('.spinner-container').fadeOut(500)
 
     $('img').attr('src', '/tmp/graphic.svg')
-    $('img').slideUp(1000)
+    $('img').hide()
     $('.main-wrapper, img').addClass('img-open')
-    $('img').fadeIn(1000)
+    $('img').fadeIn(500)
     $('img').show()
 }
 
 function change_final_text(message) {
     $('.final-text').text(message)
-    $('.final-text').fadeIn(1000)
-    $('.final-text').slideDown(1000)
+    $('.final-text').fadeIn(500)
 }
