@@ -24,7 +24,7 @@ html, body {
 }
 
 .main-wrapper.img-open {
-    max-height: 28rem;
+    max-height: 42rem;
     transition: max-height .8s;
 }
 img {

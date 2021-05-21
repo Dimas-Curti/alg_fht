@@ -8,8 +8,11 @@
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="/css/tailwind.css" />
     <link rel="stylesheet" href="/css/tailwind-utilities.css" />
+    <link rel="stylesheet" href="/css/slick.css" />
+    <link rel="stylesheet" href="/css/slick-theme.css" />
     <script src="/js/main.js"></script>
     <script src="/js/jquery.min.js"></script>
+    <script src="/js/slick.js"></script>
 </head>
 <body class="flex flex-col justify-center bg-gray-200">
     <div class="text-2xl text-center mb-6">VERIFICAÇÃO DE ASSINATURA DE ARQUIVOS</div>
@@ -38,7 +41,10 @@
         <div class="output-wrapper w-1/2 p-6 flex flex-col justify-center items-center">
             <p class="initial-text">Selecione o arquivo que você quer verificar e clique no botão</p>
             <p class="final-text hidden mb-4 text-center"></p>
-            <img src="/tmp/graphic.png" class="hidden graphic-image" />
+            <div class="main-slider w-full ml-8 pl-4 mr-4">
+                <img src="/tmp/graphic-general.png" class="hidden graphic-general" />
+                <img src="/tmp/graphic-detailed.png" class="hidden graphic-detailed" />
+            </div>
             <div class="flex flex-col items-center justify-center hidden spinner-container w-full">
                 <p class="spinner-text mb-2">Verificando arquivo...</p>
                 <div class="spinner"></div>

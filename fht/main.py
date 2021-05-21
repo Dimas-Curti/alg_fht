@@ -39,12 +39,13 @@ class Main:
             print('Comparação com a assinatura no banco de dados: ', self.input_signature.last_compare)
 
             if self.input_signature.last_compare["assurance"] < 100 - MARGIN_OF_DIFF:
+                first_comparison = self.input_signature.last_compare["final_signature"]
+
                 self.compare_to_other_old_signatures()
 
                 self.register_signature_logs(self.input_signature)
-                self.register_final_signature(self.input_signature)
 
-                self.gui.generate_second_level_comparison_graphic(self.second_level_comparisons)
+                self.gui.generate_second_level_comparison_graphics(self.second_level_comparisons, first_comparison)
 
                 return {
                     'code': 'suspect_file',

@@ -14,7 +14,7 @@ async function verify () {
 
         switch (res.code) {
             case 'success':
-                $('img').fadeOut(1000)
+                $('.main-slider, img').fadeOut(1000)
                 change_final_text('Este arquivo é seguro, garantimos que o arquivo verificado é ' + res.correct_extension)
 
                 break;
@@ -43,7 +43,7 @@ async function verify () {
                 break;
 
             case 'unknown_extension':
-                change_final_text('Desculpe, não possuímos esta extensão no banco de dados.')
+                change_final_text('Lamentamos, não possuímos esta extensão no banco de dados.')
                 break;
         }
     }, 2000)
@@ -54,7 +54,7 @@ async function select_file () {
 }
 
 function initiate_verify() {
-    $('img').hide()
+    $('img, .main-slider').hide()
 
     $('.main-wrapper, img').removeClass('img-open')
     $('.initial-text, .final-text').hide()
@@ -63,13 +63,18 @@ function initiate_verify() {
 }
 
 function show_graphics () {
+    $('img, .main-slider').show()
     $('.spinner-container').fadeOut(500)
 
-    $('img').attr('src', '/tmp/graphic.svg')
-    $('img').hide()
+    $('.graphic-general').attr('src', '/tmp/graphic-general.svg')
+    $('.graphic-detailed').attr('src', '/tmp/graphic-detailed.svg')
     $('.main-wrapper, img').addClass('img-open')
-    $('img').fadeIn(500)
-    $('img').show()
+
+    $('.main-slider').slick({
+        infinite: false
+    });
+    $('.main-slider').fadeIn(500)
+    $('.main-slider').show()
 }
 
 function change_final_text(message) {
