@@ -11,39 +11,35 @@
     <script src="/js/main.js"></script>
     <script src="/js/jquery.min.js"></script>
 </head>
-<body class="flex flex-col justify-center">
+<body class="flex flex-col justify-center bg-gray-200">
     <div class="text-2xl text-center mb-6">VERIFICAÇÃO DE ASSINATURA DE ARQUIVOS</div>
-    <div class="flex flex-row bg-gray-200 p-4 h-auto w-10/12 mx-auto justify-around">
-        <div class="flex flex-col w-1/2 p-6 border-r-4 border-gray-400">
-            <div class="offset-input mb-4">
-                <p class="text-lg mb-2">Digite o deslocamento do header e do trailer</p>
-                <input class="offset-selector border border-gray-500 pl-4 placeholder-gray-700 ml-4" type="number" placeholder="Deslocamento" />
-            </div>
-            <div class="file-input mb-4">
+    <div class="main-wrapper flex flex-row p-4 w-10/12 mx-auto justify-around">
+        <div class="input-wrapper flex flex-col justify-center items-center w-1/2 p-4 border-r-4 border-gray-200">
+            <div class="file-input mb-4 w-full">
                 <p class="text-lg mb-2">Selecione o arquivo para verificação</p>
                 <button
-                   class="bg-gray-600 p-2 text-white font-semibold tracking-wider text-h4 ml-4"
+                   class="bg-gray-600 hover:bg-blue-900 transition duration-500 ease p-2 text-white font-semibold tracking-wider text-h4 ml-4 rounded-md"
                    onclick="select_file()"
                 >
                     SELECIONAR ARQUIVO</button>
             </div>
-            <div class="option-reset mb-4">
-                <input id="input-reset" name="input-reset" type="checkbox" checked />
+            <div class="option-reset mb-4 w-full">
+                <input id="input-reset" name="input-reset" type="checkbox" />
                 <label for="input-reset">Zerar banco de assinaturas</label>
             </div>
-            <div class="mx-auto">
+            <div class="mx-auto w-full flex justify-center">
                 <button
-                   class="bg-green-600 p-4 text-white font-semibold tracking-wider text-h4"
+                   class="bg-blue-600 hover:bg-blue-700 transition duration-500 ease p-4 text-white font-semibold tracking-wider text-h4 rounded-md"
                    onclick="verify()"
                 >
                     VERIFICAR ARQUIVO</button>
             </div>
         </div>
-        <div class="image-container w-1/2 p-6 flex flex-col justify-center items-center">
+        <div class="output-wrapper w-1/2 p-6 flex flex-col justify-center items-center">
             <p class="initial-text">Selecione o arquivo que você quer verificar e clique no botão</p>
-            <p class="final-text hidden mb-4"></p>
+            <p class="final-text hidden mb-4 text-center"></p>
             <img src="/tmp/graphic.png" class="hidden graphic-image" />
-            <div class="flex flex-col items-center hidden spinner-container">
+            <div class="flex flex-col items-center justify-center hidden spinner-container w-full">
                 <p class="spinner-text mb-2">Verificando arquivo...</p>
                 <div class="spinner"></div>
             </div>

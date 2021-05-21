@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import os
 
 
@@ -38,15 +39,24 @@ class GuiInterface:
         
         fig, ax = plt.subplots()
 
+        cmap = mpl.colors.LinearSegmentedColormap.from_list('red_to_green', ['red', 'yellow', 'green'])
+        cmap_border = mpl.colors.LinearSegmentedColormap.from_list('white_to_black', ['white', 'black'])
+
+        norm = plt.Normalize(0, 100)
+        colors = cmap(norm(assurances))
+        colors_border = cmap_border(norm(assurances))
+
         ax.barh(extensions,
                 assurances,
-                color='red')
+                color=colors,
+                height=0.4,
+                edgecolor=colors_border)
         ax.set(title="Visão geral das correlações",
-               xlabel="% de certeza",
+               xlabel="% de correlação",
                ylabel="Extensões (com alguma porcentagem de correlação)",
                xlim=[0, 100])
 
-        plt.savefig('web/tmp/graphic.png')
+        plt.savefig('web/tmp/graphic.svg', format='svg', dpi=1800, transparent=True)
         # TODO: Melhorar design do graficos
         # ax = bars[0].axes
         # lim = ax.get_xlim() + ax.get_ylim()

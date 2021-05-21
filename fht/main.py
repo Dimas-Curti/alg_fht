@@ -4,6 +4,8 @@ from interfaces.json_interface import *
 from interfaces.gui_interface import *
 import os
 
+MARGIN_OF_DIFF = 5
+
 
 class Main:
     def __init__(self, input_file, offset, reset_database):
@@ -29,9 +31,14 @@ class Main:
 
         if old_signature_file:
             old_signature = self.json.read(old_signature_file)
+
+            print('Extensão do arquivo de entrada: ', self.input_file_extension)
+
             self.input_signature.compare_to(old_signature["to_backend"], self.input_file_extension)                     # compara as duas assinaturas para gerar o objeto final da correlação
 
-            if self.input_signature.last_compare["assurance"] < 100:
+            print('Comparação com a assinatura no banco de dados: ', self.input_signature.last_compare)
+
+            if self.input_signature.last_compare["assurance"] < 100 - MARGIN_OF_DIFF:
                 self.compare_to_other_old_signatures()
 
                 self.register_signature_logs(self.input_signature)
@@ -46,17 +53,17 @@ class Main:
                 }
 
             else:
-                self.compare_to_other_old_signatures()
-
                 self.register_signature_logs(self.input_signature)
                 self.register_final_signature(self.input_signature)
-
-                self.gui.generate_second_level_comparison_graphic(self.second_level_comparisons)
 
                 return {
                     'code': 'success',
                     'correct_extension': self.input_file_extension
                 }
+        else:
+            return {
+                'code': 'unknown_extension'
+            }
 
     @staticmethod
     def get_extension(file):

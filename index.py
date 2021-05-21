@@ -10,7 +10,7 @@ def analyse_file(file, offset, reset_database):
     app = Main(file, offset, reset_database)
 
     res = app.run_fht_correlate()
-    print(res)
+    print('Resultado: ', res)
     return res
 
 
