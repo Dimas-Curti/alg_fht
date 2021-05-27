@@ -71,7 +71,10 @@ function show_graphics () {
     $('.main-wrapper, img').addClass('img-open')
 
     $('.main-slider').slick({
-        infinite: false
+        variableWidth: true,
+        infinite: false,
+        slidesToShow: 1,
+        slidesToScroll: 1
     });
     $('.main-slider').fadeIn(500)
     $('.main-slider').show()

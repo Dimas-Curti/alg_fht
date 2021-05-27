@@ -26,6 +26,7 @@ html, body {
 .main-wrapper.img-open {
     max-height: 42rem;
     transition: max-height .8s;
+    max-width: 84rem;
 }
 img {
     background-color: #dfe6f5;
