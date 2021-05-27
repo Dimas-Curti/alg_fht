@@ -35,6 +35,10 @@ img {
 }
 
 img.img-open {
-    max-height: 28rem;
+    max-height: 24rem;
     transition: max-height .8s;
+}
+
+.output-wrapper {
+    width: 52%;
 }

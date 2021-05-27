@@ -63,18 +63,15 @@ function initiate_verify() {
 }
 
 function show_graphics () {
-    $('img, .main-slider').show()
     $('.spinner-container').fadeOut(500)
+    $('img, .main-slider').fadeIn(500)
 
     $('.graphic-general').attr('src', '/tmp/graphic-general.svg')
     $('.graphic-detailed').attr('src', '/tmp/graphic-detailed.svg')
     $('.main-wrapper, img').addClass('img-open')
 
     $('.main-slider').slick({
-        variableWidth: true,
-        infinite: false,
-        slidesToShow: 1,
-        slidesToScroll: 1
+        infinite: false
     });
     $('.main-slider').fadeIn(500)
     $('.main-slider').show()
