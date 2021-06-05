@@ -4,6 +4,13 @@ const OFFSET = 5
 
 
 async function verify () {
+    console.log(filePath)
+    if (filePath === '' || typeof filePath === 'undefined') {
+        $('.main-slider, img, .initial-text').fadeOut(1000)
+        change_final_text('Por favor, selecione um arquivo e tente novamente.')
+        return
+    }
+
     initiate_verify()
 
     reset_database = $('#input-reset')[0].checked

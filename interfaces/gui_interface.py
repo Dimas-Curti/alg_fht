@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import filedialog
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -10,6 +11,8 @@ import numpy as np
 class GuiInterface:
     def __init__(self):
         self.root = tk.Tk()
+
+        ttk.Style().theme_use('clam')
         self.root.withdraw()
         self.root.wm_attributes("-topmost", 1)
 
@@ -70,11 +73,9 @@ class GuiInterface:
     @staticmethod
     def generate_detailed_graphic(full_signature, cmap):
         norm = plt.Normalize(0, 1.0)
-        colors = cmap(norm(full_signature))
 
         fig2, ax2 = plt.subplots()
 
-        print(full_signature)
         ax2.plot(full_signature)
         ax2.set(title="Visão detalhada das correlações",
                 xlabel="Byte",
@@ -95,7 +96,16 @@ class GuiInterface:
 
         cmap = mpl.colors.LinearSegmentedColormap.from_list('red_to_green', ['red', 'yellow', 'green'])
 
+        ht_concatenated = []
+
+        for line in comparison_signature["header_signature"]:
+            ht_concatenated.append(line)
+
+        for line in comparison_signature["trailer_signature"]:
+            ht_concatenated.append(line)
+
+        final_data = np.around(np.average(ht_concatenated, axis=0), 2).tolist()
         self.generate_general_graphic(extensions, assurances, cmap)
-        self.generate_detailed_graphic(comparison_signature["header_signature"][0], cmap)
+        self.generate_detailed_graphic(final_data, cmap)
 
         # TODO: Melhorar design do graficos

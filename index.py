@@ -29,4 +29,4 @@ def close_callback(route, websockets):
         exit()
 
 
-eel.start('main.html', size=(1200, 600), close_callback=close_callback)
+eel.start('main.html', size=(1200, 800), close_callback=close_callback)
