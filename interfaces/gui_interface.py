@@ -87,6 +87,8 @@ class GuiInterface:
 
     def generate_second_level_comparison_graphics(self, second_level_comparisons, comparison_signature):
         filtered_data = list(filter(lambda item: item[1] > 0, second_level_comparisons.items()))
+        filtered_data.sort(key=lambda el: el[1], reverse=True)
+        print(filtered_data)
 
         if filtered_data.__len__() == 0:
             return
